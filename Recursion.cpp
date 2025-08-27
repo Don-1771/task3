@@ -3,80 +3,81 @@
 #include <string>
 #include <vector>
 
-std::string fib(int k)
-{
-   std::string str;
-   std::string str2;
-   std::string str3;
+//------------------------------------------------------------------------------------------
+std::string function(int k) {
 
+   std::string zero = "1";
+   std::string first = "3";
+
+   std::string result = first;
+
+   if (k == 0)
+      return zero;
    
-   if (k == 0) 
-   {      
-      str3 = "1";
-      return str3;
-   }
-      
    if (k == 1)
-   {
-      str3 = "3";
-      return str3;
-   }
-   
-   str = fib(k - 1);
-   str2 = fib(k - 2);
-   int n = 0, n_ost = 0;
-   std::string str4;
-   for (int i = 0; i <= str.size()-1; ++i)
-   {
-      n_ost = n/10;
-      n = std::atoi(&str[i]);     
-      n = n * 5 + n_ost;
-      str4.push_back((n % 10) + '0');
-   }
-   n_ost = n/10;
-   if (n_ost>0)
-      str4.push_back(n_ost + '0');
-
-   str = str4;
-   n = 0, n_ost = 0;
-   int i = 0;
-   int j = 0;
+      return first;
   
-   while (i <= str.size() - 1 && j <= str2.size() - 1) {
-      n_ost = n/10;
-      n = str[i] - '0';      
-      n= n + (str2[j] - '0');
-      str3.push_back((n % 10) + '0');
-      ++i;
-      ++j;
-   }
-   while (i <= str.size() - 1)
-   {
-      n_ost = n/10;
-      n = str[i] - '0';
-      str3.push_back((n % 10) + '0');
-      ++i;
-   }
-   while (j <= str2.size() - 1)
-   {
-      n_ost = n/10;
-      n = str2[j] - '0';
-      str3.push_back((n % 10) + '0');
-      ++j;
+   char ch;
+   int n, ost_n = 0;
+   while (k - 1) {
+      for (int i = 0; i <= first.size() - 1; i++) {
+         ch = first[i];
+         n = atoi(&ch);
+         n = n*5 + ost_n;
+         result[i] = n%10 + '0';
+         ost_n = n / 10;
+      }
+      if (ost_n)
+         result.push_back(ost_n + '0');
+      
+      ost_n = 0;
+      for (int i = 0; i <= zero.size() - 1; i++) {
+         ch = zero[i];
+         n = atoi(&ch);
+         ch = result[i];
+         n = n + atoi(&ch);
+         result[i] = n%10 + '0';
+         ost_n = n / 10;
+      }
+
+      int i = zero.size();
+      while (ost_n) {
+         
+         if (result.size() - zero.size()) {
+            ch = result[i];
+            n = atoi(&ch);
+            n += ost_n;
+            result[i] = n%10 + '0';
+            ost_n = n / 10;
+            ++i;
+         }
+         else {
+            result.push_back(ost_n + '0');
+         }
+      }
+      
+   
+
+      zero = first;
+      first = result;
+
+      ch = result[0];
+      n = atoi(&ch);
+      if (n % 2 == 0)
+         k++;
+
+      k--;
    }
 
-   n_ost = n/10;
-   if(n_ost!=0)
-      str3.push_back(n_ost + '0');
+   std::reverse(result.begin(), result.end());
 
-   return str3;
+   return result;
 }
 
+//------------------------------------------------------------------------------------------
 int main()
 {
    std::string num;
-   num = fib(39);
-   for (int i = num.size() - 1; i >= 0; --i)
-      std::cout << num[i];
-   
+   num = function(40);
+   std::cout << num << std::endl;
 }
